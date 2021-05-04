@@ -55,3 +55,7 @@ app.get('/api/animals', (req, res) => {
     }
     res.json(results);
 });
+
+app.get('/', (req,res) => {
+    res.redirect('/api/animals')
+})
