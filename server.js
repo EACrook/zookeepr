@@ -48,6 +48,13 @@ function filterByQuery(query, animalsArray) {
     return filteredResults;
   }
 
+function findById(id, animalsArray) {
+  const result = animalsArray.filter(animal => animal.id === id)[0];
+  return result;
+}
+
+// this is a direct route to our specific animal package
+
 app.get('/api/animals', (req, res) => {
     let results = animals;
     if (req.query) {
@@ -56,6 +63,18 @@ app.get('/api/animals', (req, res) => {
     res.json(results);
 });
 
-app.get('/', (req,res) => {
+// adds a home route for the heroku deployed page
+
+app.get('/', (req, res) => {
+    // need to redirect from the above since it was already written, but we can have this be the direct and only route
     res.redirect('/api/animals')
-})
+});
+
+app.get('/api/animals/:id', (req, res) => {
+  const result = findById(req.params.id, animals);
+  if (result) {
+    res.json(result);
+  } else {
+    res.send(404);
+  }
+});
